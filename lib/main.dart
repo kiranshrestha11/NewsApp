@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
     return const MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Alzazira News',
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );

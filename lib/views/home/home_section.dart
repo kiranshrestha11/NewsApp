@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/views/home/news_detail_page.dart';
 
 class HomeSection extends StatelessWidget {
   const HomeSection({Key? key}) : super(key: key);
@@ -101,19 +102,26 @@ class SectionIII extends StatelessWidget {
                     Text("1 hrs ago",
                         style:
                             TextStyle(fontSize: 12, color: Color(0xffAAACAD))),
-                    Row(
-                      children: [
-                        Text(
-                          "Read More",
-                          style:
-                              TextStyle(fontSize: 12, color: Color(0xff40A3CC)),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 18,
-                          color: Color(0xff40A3CC),
-                        )
-                      ],
+                    InkWell(
+                      splashColor: Color(0xff40A3CC),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NewsDetailPage()));
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Read More",
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xff40A3CC)),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 18,
+                            color: Color(0xff40A3CC),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
