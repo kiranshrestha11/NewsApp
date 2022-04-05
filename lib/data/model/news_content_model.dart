@@ -1,15 +1,15 @@
 class NewsContentModel {
-  final Source source;
-  final String author, title, description, imgUrl, pubTime, content;
+  final Source? source;
+  final String? author, title, description, imgUrl, pubTime, content;
 
   NewsContentModel({
-    required this.source,
-    required this.author,
-    required this.title,
-    required this.description,
-    required this.imgUrl,
-    required this.pubTime,
-    required this.content,
+    this.source,
+    this.author,
+    this.title,
+    this.description,
+    this.imgUrl,
+    this.pubTime,
+    this.content,
   });
 
   factory NewsContentModel.fromJson(Map<String, dynamic> json) {
@@ -18,19 +18,19 @@ class NewsContentModel {
       author: json["author"],
       title: json["title"],
       description: json["description"],
-      imgUrl: json["imgUrl"],
-      pubTime: json["pubTime"],
+      imgUrl: json["urlToImage"],
+      pubTime: json["publishedAt"],
       content: json['content'],
     );
   }
 }
 
 class Source {
-  final String id, name;
+  final String? id, name;
 
   Source({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
 
   factory Source.fromJson(Map<String, dynamic> json) {

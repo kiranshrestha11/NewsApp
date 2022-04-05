@@ -18,9 +18,13 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 2;
   final List screens = [
     ProfilePage(),
-    MyNextPage(),
+    MyNextPage(
+      categoryName: "General",
+    ),
     HomeSection(),
-    SearchPage(),
+    SearchPage(
+      query: "India",
+    ),
     MenuPage()
   ];
   bool isSelected = false;
@@ -55,67 +59,58 @@ class _HomePageState extends State<HomePage> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: _currentIndex == 0
-                      ? CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Color(0xffD8227A),
-                          child: Icon(
-                            Icons.account_circle_outlined,
-                            color: Colors.white,
-                          ),
+                      ? AvatarWidget(
+                          iconData: Icons.account_circle_outlined,
                         )
                       : Icon(Icons.account_circle_outlined),
                   label: "Name",
                 ),
                 BottomNavigationBarItem(
                     icon: _currentIndex == 1
-                        ? CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Color(0xffD8227A),
-                            child: Icon(
-                              Icons.run_circle_outlined,
-                              color: Colors.white,
-                            ),
+                        ? AvatarWidget(
+                            iconData: Icons.run_circle_outlined,
                           )
                         : Icon(Icons.run_circle_outlined),
                     label: "My Next"),
                 BottomNavigationBarItem(
                     icon: _currentIndex == 2
-                        ? CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Color(0xffD8227A),
-                            child: Icon(
-                              Icons.home_rounded,
-                              color: Colors.white,
-                            ),
+                        ? AvatarWidget(
+                            iconData: Icons.home_rounded,
                           )
                         : Icon(Icons.home_rounded),
                     label: "Home"),
                 BottomNavigationBarItem(
                     icon: _currentIndex == 3
-                        ? CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Color(0xffD8227A),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                          )
+                        ? AvatarWidget(iconData: Icons.search)
                         : Icon(Icons.search),
                     label: "Search"),
                 BottomNavigationBarItem(
                     icon: _currentIndex == 4
-                        ? CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Color(0xffD8227A),
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                            ),
-                          )
+                        ? AvatarWidget(iconData: Icons.menu)
                         : Icon(Icons.menu),
                     label: "Menu"),
               ]),
         ),
+      ),
+    );
+  }
+}
+
+class AvatarWidget extends StatelessWidget {
+  AvatarWidget({
+    Key? key,
+    required this.iconData,
+  }) : super(key: key);
+  IconData iconData;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: Color(0xffD8227A),
+      child: Icon(
+        iconData,
+        color: Colors.white,
       ),
     );
   }
