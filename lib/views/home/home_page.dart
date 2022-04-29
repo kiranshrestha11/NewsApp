@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:news_app/views/home/home_section.dart';
 import 'package:news_app/views/menu_page.dart';
 import 'package:news_app/views/my_next_page.dart';
-import 'package:news_app/views/profile_page.dart';
+import 'package:news_app/views/profile_page/profile_page.dart';
 import 'package:news_app/views/search_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     MenuPage()
   ];
   bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               type: BottomNavigationBarType.fixed,
               elevation: 20.0,
               selectedItemColor: Colors.white,
-              onTap: (index) => setState(() {
+              onTap: (index) => setState(() async {
                     _currentIndex = index;
                   }),
               items: <BottomNavigationBarItem>[
@@ -101,7 +103,7 @@ class AvatarWidget extends StatelessWidget {
     Key? key,
     required this.iconData,
   }) : super(key: key);
-  IconData iconData;
+  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {

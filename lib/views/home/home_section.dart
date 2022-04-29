@@ -1,10 +1,16 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:news_app/data/model/news_category_model.dart';
 import 'package:news_app/views/home/section_i.dart';
 import 'package:news_app/views/home/section_ii.dart';
 import 'package:news_app/views/home/section_iii.dart';
+import 'package:news_app/views/login/login_page.dart';
 import 'package:news_app/views/my_next_page.dart';
 import 'package:news_app/views/search_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeSection extends StatefulWidget {
   const HomeSection({Key? key}) : super(key: key);
@@ -17,6 +23,22 @@ class _HomeSectionState extends State<HomeSection> {
   final TextEditingController _controller = TextEditingController();
   String query = '';
 
+  late bool loggedIn;
+
+  getLogin() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedIn = _prefs.getBool('loggedin') == null ? false : true;
+    });
+  }
+
+  @override
+  void initState() {
+    getLogin();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,35 +46,40 @@ class _HomeSectionState extends State<HomeSection> {
         preferredSize: const Size.fromHeight(48),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 42, 10, 0),
-          child: Container(
-            margin: EdgeInsets.only(bottom: 1.5),
-            decoration: BoxDecoration(
-                color: Colors.grey[350],
-                borderRadius: BorderRadius.circular(20.0)),
-            child: Expanded(
-              child: TextField(
-                  onSubmitted: (value) {
-                    setState(() {
-                      value = _controller.text;
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return SearchPage(
-                          query: value,
-                        );
-                      }));
-                    });
-                  },
-                  controller: _controller,
-                  autocorrect: true,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
+          child: Material(
+            elevation: 10,
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+              margin: EdgeInsets.only(bottom: 1.5),
+              decoration: BoxDecoration(
+                  color: Colors.grey[350],
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Expanded(
+                child: TextField(
+                    onSubmitted: (value) {
+                      setState(() {
+                        value = _controller.text;
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return SearchPage(
+                            query: value,
+                          );
+                        }));
+                      });
+                    },
+                    controller: _controller,
+                    autocorrect: true,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
                         color: Colors.grey.shade700,
-                        fontSize: 17),
-                    hintText: "Search Latest News",
-                    border: InputBorder.none,
-                  )),
+                        fontSize: 16,
+                      ),
+                      hintText: "Search Latest News",
+                      border: InputBorder.none,
+                    )),
+              ),
             ),
           ),
         ),
@@ -61,6 +88,62 @@ class _HomeSectionState extends State<HomeSection> {
         scrollDirection: Axis.vertical,
         children: [
           SectionI(),
+          if (loggedIn)
+            SizedBox.shrink()
+          else
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(left: 12, right: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Color(0xffD8227A),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xffD8227A).withOpacity(0.4),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              height: 40,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "Login to Explore more News.",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withOpacity(0.7)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => LoginPage()));
+                      },
+                      child: Material(
+                        elevation: 10.0,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 26,
+                          width: 58,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]),
+            ),
           SectionII(),
           SectionIII(),
         ],

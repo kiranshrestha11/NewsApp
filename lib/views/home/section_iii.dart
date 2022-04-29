@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:news_app/data/provider/news_list_provider.dart';
@@ -20,16 +18,21 @@ class SectionIII extends ConsumerWidget {
           shrinkWrap: true,
           itemCount: _data.length,
           itemBuilder: (context, index) {
-            final e = _data[index].imgUrl;
+            final img = _data[index].imgUrl;
+            final title = _data[index].title;
+            final content = _data[index].description;
+            final time = _data[index].pubTime;
+            final DateTime pubTime = DateTime.parse(time ?? "");
             return Container(
               //color: Colors.blue,
-              margin: EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 10),
+              margin: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 10),
               height: 100,
               width: double.infinity,
               child: Row(
                 children: [
                   Image.network(
-                    e.toString(),
+                    img ??
+                        "https://hhpl.com.np/assets/images/imagenotfound.png",
                     height: 94,
                     width: 99,
                     fit: BoxFit.cover,
@@ -45,17 +48,25 @@ class SectionIII extends ConsumerWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Repeat safety violations, critical resource shortages",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              SizedBox(
+                                height: 38,
+                                child: Text(
+                                  title ?? "",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                  "Since 2019, nearly three-quarters of Arizona’s 130 outpatient dialysis..",
+                              Text(content.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.justify,
+                                  maxLines: 2,
                                   style: TextStyle(color: Colors.black54)),
                             ]),
                       ),
@@ -66,7 +77,7 @@ class SectionIII extends ConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("1 hrs ago",
+                            Text("${pubTime.second} hrs ago",
                                 style: TextStyle(
                                     fontSize: 12, color: Color(0xffAAACAD))),
                             InkWell(

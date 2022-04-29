@@ -11,37 +11,28 @@ class SectionII extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final _newsContent = ref.watch(contentProvider);
     return Container(
-        padding: EdgeInsets.only(top: 6, left: 12, right: 12, bottom: 6),
-        //color: Colors.blue,
-        height: 257,
-        child: _newsContent.when(
-            data: (_data) {
-              return ListView(
-                //shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  ..._data.map(
-                    (e) => Container(
-                      margin: EdgeInsets.only(right: 14),
-                      height: 257,
-                      width: 334,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 5),
+      //color: Colors.blue,
+      height: 230,
+      child: _newsContent.when(
+        data: (_data) {
+          return ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              ..._data.map(
+                (e) => Container(
+                  margin: EdgeInsets.only(right: 14),
+                  height: 257,
+                  width: 334,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Stack(
+                        alignment: AlignmentDirectional.bottomStart,
                         children: [
-                          SizedBox(
-                            height: 38,
-                            child: Text(
-                              e.title ?? "",
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(
@@ -53,33 +44,59 @@ class SectionII extends ConsumerWidget {
                               //color: Colors.red,
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          SizedBox(
-                            height: 28,
+                          Container(
+                            padding: EdgeInsets.only(top: 3, left: 3.5),
+                            height: 45,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: Colors.black54,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(8),
+                                    bottomRight: Radius.circular(8))),
                             child: Text(
-                              textAlign: TextAlign.justify,
-                              e.description ?? "",
+                              e.title ?? "Title",
                               maxLines: 2,
+                              textAlign: TextAlign.left,
                               style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey[600]),
+                                color: Colors.white70,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              );
-            },
-            error: (err, s) => Center(
-                  child: Text(err.toString()),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        height: 28,
+                        child: Text(
+                          textAlign: TextAlign.justify,
+                          e.description.toString() == ''
+                              ? "Description not available for the above news."
+                              : e.description ?? "",
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey[600]),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-            loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                )));
+              )
+            ],
+          );
+        },
+        error: (err, s) => Center(
+          child: Text(err.toString()),
+        ),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }
